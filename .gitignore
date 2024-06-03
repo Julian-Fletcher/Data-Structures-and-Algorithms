@@ -1,0 +1,13 @@
+
+*.cmake
+*.bin
+*.exe
+*.ninja
+*.xml
+*.iml
+*.txt
+*.check_cache
+*.log
+*.yaml
+linked_list/single_no_overhead/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
+linked_list/single_no_overhead/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.c
