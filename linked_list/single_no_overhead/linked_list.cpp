@@ -64,7 +64,7 @@ void * deleteItem(Node *head, void *key, int (*comp_func)(void *a, void *b)){
     return usrData;
 }
 
-void freeList(Node *head){
+Node * freeList(Node *head){
     Node *p = head;         // Will move forward in the list
     Node *q = head;         // Will handle the deletion of nodes
 
@@ -73,6 +73,7 @@ void freeList(Node *head){
         delete(q);
         q = p;
     }
+    return nullptr;
 }
 
 void printList(Node *head, std::string(*print_func)(void *data)){

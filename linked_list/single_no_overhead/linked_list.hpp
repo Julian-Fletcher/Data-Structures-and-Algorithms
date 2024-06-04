@@ -16,5 +16,5 @@ Node * createList(void *data);
 int getListSize(Node *head);
 Node * insertAtHead(Node *head, void *data);
 void * deleteItem(Node *head, void *key, int (*comp_func)(void *a, void *b));
-void freeList(Node *head);
+Node * freeList(Node *head);
 void printList(Node *head, std::string(*print_func)(void *data));

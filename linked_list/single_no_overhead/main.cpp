@@ -36,7 +36,22 @@ int main(){
     for(int i = 1; i < 10;i++){
         list = insertAtHead(list, (void*)(data + i));
     }
+    // Create function pointer for compare_int
+    int (*comparePtr)(void *, void *);
+    comparePtr = compare_int;
 
+    // Create function pointer for print_int
+    std::string (*print)(void *);
+    print = print_int;
 
+    printList(list, print);
+
+    void * deleted_item;
+    deleted_item = deleteItem(list, (void *)(data + 4), comparePtr);
+    std::cout << "Deleted Item: " << *((int *)deleted_item) << std::endl;
+
+    printList(list, print);
+
+    list = freeList(list);
 
 }
