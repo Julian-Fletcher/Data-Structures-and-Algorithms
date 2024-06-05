@@ -84,28 +84,71 @@ Node *deleteNode(Node *root, int data) {
         return root;
     }
 
+    // Traverse left to find key
     if(root->data < data){
         root->left = deleteNode(root->left, data);
+        return root;
     }
+    // Traverse right to find key
     else{
         if(root->data > data){
             root->right = deleteNode(root->right, data);
-        }
-    }
-    if(root->data == data){
-        if(root->left == nullptr){
-            return root->right;
-        }
-        else if(root->right == nullptr){
-            return root->left;
+            return root;
         }
     }
 
-    
+    // Code for when the node is found
+    // Node with one or no children
+    if(root->data == data){
+        if(root->left == nullptr){
+            Node *temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if(root->right == nullptr){
+            Node *temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Node with two children
+        Node *parent = root;
+        Node *replacement = root->right;
+        while(replacement->left != nullptr){
+            parent = replacement;
+            replacement = replacement->left;
+        }
+
+        // Copy replacement content to parent node
+        root->data = replacement->data;
+
+        // Delete the replacement node
+        if(parent-> left == replacement){
+            parent->left = replacement->right;
+        }
+        else{
+            parent->right = replacement->right;
+        }
+        delete replacement;
+        return root;
+    }
+    return root;
 }
 
 // Print (In order)
-void inOrderPrint(BST tree);
+void inOrderPrint(BST tree){
+    traversal(tree.root);
+}
+
+Node * traversal(Node *root){
+    if(root == nullptr){
+        return root;
+    }
+    traversal(root->left);
+    std::cout << root->data << std::endl;
+    traversal(root->right);
+    std::cout << root->data << std::endl;
+}
 
 // Free
 int destroyBST(BST tree);

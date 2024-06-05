@@ -6,7 +6,7 @@
 #include <iostream>
 
 typedef struct _node{
-    void *data;
+    float data;
     struct _node *next;
 }Node;
 
@@ -17,7 +17,7 @@ typedef struct wrapper{
 
 List createList();
 int getListSize(List list);
-void insertAtHead(List list, void *data);
-bool deleteItem(List list, void *key, int (*comp_func)(void *a, void *b));
-bool freeList(List list);
-void printList(List list, std::string(*print_func)(void *data));
+void insertAtHead(List list, float data);
+bool deleteItem(List list, float key);
+void freeList(List list);
+void printList(List list);

@@ -14,7 +14,39 @@ int getListSize(List list){
     return list.listSize;
 }
 
-void insertAtHead(List list, void *data);
-bool deleteItem(List list, void *key, int (*comp_func)(void *a, void *b));
-bool freeList(List list);
-void printList(List list, std::string(*print_func)(void *data));
+void insertAtHead(List list, float data){
+    Node *newNode = new(Node);
+    newNode->data = data;
+
+    // Insert at head of list
+    newNode->next = list.listHead->next;
+    list.listHead->next = newNode;
+
+}
+
+bool deleteItem(List list, float key){
+    Node *traversalPtr = list.listHead;
+    Node *trailingPtr = list.listHead;
+
+    while(traversalPtr->next != nullptr){
+        if(traversalPtr->data == key){
+            trailingPtr->next = traversalPtr->next;
+            delete(traversalPtr);
+            return true;
+        }
+    }
+    // Return false if the node is not found
+    return false;
+}
+
+void freeList(List list){
+    Node *traversalPtr = list.listHead;
+    Node *trailingPtr = list.listHead;
+
+    while(traversalPtr->next != nullptr){
+        traversalPtr = traversalPtr->next;
+        delete(trailingPtr);
+        trailingPtr = traversalPtr;
+    }
+}
+void printList(List list);

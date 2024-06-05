@@ -47,3 +47,4 @@ int getBSTSize(BST tree);
 Node *treeInsert(Node *root, int data, int *ec);
 // Recursive helper for deleting a node
 Node *deleteNode(Node *root, int data);
+Node * traversal(Node *root);
