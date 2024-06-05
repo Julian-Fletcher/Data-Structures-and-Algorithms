@@ -73,6 +73,7 @@ Node * freeList(Node *head){
         delete(q);
         q = p;
     }
+    delete(p);
     return nullptr;
 }
 
