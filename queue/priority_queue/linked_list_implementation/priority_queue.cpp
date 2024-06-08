@@ -1,21 +1,26 @@
-#include "queue.h"
+#include "priority_queue.h"
+
 
 Queue initQueue(int max_size){
     Queue queue;
     queue.head = new(Node);
     queue.tail = new(Node);
 
+    // Dummy nodes point to start of list set null
     queue.head->next = nullptr;
     queue.tail->next = nullptr;
+
     queue.max_size = max_size;
-    queue.current_size = new int;
+    queue.current_size = new int;   // Dynamic size field so it can be updated 
     return queue;
 }
 
 
-int enqueue(Queue queue, int data){
+int enqueue(Queue queue, int data, int priority){
+    // Create node and fill with data
     Node *newNode = new(Node);
     newNode->data = data;
+    newNode->priority = priority;
     newNode->next = nullptr;
 
     // If the queue is empty, the new node will be pointed to by tail and head
@@ -27,12 +32,25 @@ int enqueue(Queue queue, int data){
     }
 
     *(queue.current_size) += 1;
+    
+    Node *locator = queue.head->next;       // Searches for correct position in list
+    
+    while(locator->next != nullptr){
+        if(locator->priority >= priority){
+            // Insert after the current node
+            newNode->next = locator->next;
+            locator->next = newNode;
+            return 0;
+        }
+        locator = locator->next;
+    }
+
+    // Insert at the tail of the queue -- lowest priority member
     queue.tail->next->next = newNode;
     queue.tail->next = newNode;
     return 0;
 
 }
-
 
 int dequeue(Queue queue){
     // Move head pointer to next node
@@ -49,8 +67,6 @@ int peek(Queue queue){
     return queue.head->next->data;
 }
 
-
-
 bool isEmpty(Queue queue){
     if(*(queue.current_size) != 0) return false;
     
@@ -63,7 +79,6 @@ bool isFull(Queue queue){
     
     return false;
 }
-
 
 bool deleteQueue(Queue queue){
     Node *traversePtr = queue.head->next;
