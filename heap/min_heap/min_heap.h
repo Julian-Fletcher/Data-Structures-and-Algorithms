@@ -1,21 +1,22 @@
 #include <iostream>
 
 typedef struct heap{
-    int *heap;
-    int *cururent_size;
+    int *array;
+    int *current_size;
     int max_size;
-}Heap;
+}MinHeap;
 
 
-Heap create_heap(int max_size);
-bool insert(Heap heap, int data);
-bool remove(Heap heap, int key);
-int get_size(Heap heap);
-bool isEmpty(Heap heap);
-bool isFull(Heap heap);
-void destroy_heap(Heap heap);
+MinHeap create_heap(int max_size);
+bool insert(MinHeap heap, int data);
+int extract(MinHeap heap);
+int get_size(MinHeap heap);
+bool isEmpty(MinHeap heap);
+bool isFull(MinHeap heap);
+void destroy_heap(MinHeap heap);
+void print_heap(MinHeap heap);
 
 
 // Not front facing 
-void heapify(int *heap, int index);
-
+void min_heapify_up(int *heap, int index);
+void min_heapify_down(int *heap, int parent, int size);
