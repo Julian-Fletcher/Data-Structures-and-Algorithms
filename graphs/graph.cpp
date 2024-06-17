@@ -13,21 +13,21 @@ Graph create_gaph(void){
 }
 
 // Creates an edge between v1 and v2 with the specified weight
-void add_edge(const char v1, const char v2 , const double weight){
+void add_edge(Graph graph, const char v1, const char v2 , const double weight){
     
 }
 
 // New row created
-void add_vertex(const char v){
-
+void add_vertex(Graph graph, const char v){
+    
 }
 
 // The vertex row will be deleted
-void remove_vertex(const char v){
+void remove_vertex(Graph graph, const char v){
 
 }
 
 // Two vertices will be found and the edge between them removed
-void remove_edge(const char v1, const char v2){
+void remove_edge(Graph graph, const char v1, const char v2){
 
 }
