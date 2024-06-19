@@ -26,6 +26,8 @@ void add_vertex(Undirected_Graph &graph, char v);                               
 void remove_vertex(Undirected_Graph &graph, char v);                            // The vertex row will be deleted
 void remove_edge(Undirected_Graph &graph, char v1, char v2);                    // Two vertices will be found and the edge between them removed
 void print_graph(const Undirected_Graph &g);
+int get_node_count(Undirected_Graph &graph);
+int get_edge_count(Undirected_Graph &graph);
 
 
 Directed_Graph  create_directed_graph();                                        // Return directed graph
@@ -34,6 +36,8 @@ void add_edge(Directed_Graph &graph, char start, char end, double weight);      
 void remove_vertex(Directed_Graph &graph, char v);                              // The vertex row will be deleted
 void remove_edge(Directed_Graph &graph, char v1, char v2);                      // Function overload for directed graphs
 void print_graph(const Directed_Graph &g);
+int get_node_count(Directed_Graph &graph);
+int get_edge_count(Directed_Graph &graph);
 
 
 

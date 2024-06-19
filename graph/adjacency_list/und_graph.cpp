@@ -104,6 +104,15 @@ void print_graph(const Undirected_Graph &g){
     }
 }
 
+int get_node_count(Undirected_Graph &graph){
+    return graph.node_count;
+}
+int get_edge_count(Undirected_Graph &graph){
+    return graph.edge_count;
+}
+
+
+
 /* Helper Functions */
 //UPDATED
 size_t locate_vertex(const std::vector<std::vector<Edge>> &adj_list, char target){
