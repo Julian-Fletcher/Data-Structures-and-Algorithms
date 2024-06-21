@@ -32,8 +32,8 @@ int get_edge_count(Undirected_Graph &graph);
 
 Directed_Graph  create_directed_graph();                                        // Return directed graph
 void add_vertex(Directed_Graph &graph, char v);                                 // New row created
-void add_edge(Directed_Graph &graph, char start, char end, double weight);      // Function overload for directed graphs
-void remove_vertex(Directed_Graph &graph, char v);                              // The vertex row will be deleted
+void add_edge(Directed_Graph &graph, char source, char destination, double weight);      // Function overload for directed graphs
+void remove_vertex(Directed_Graph &graph, char target);                              // The vertex row will be deleted
 void remove_edge(Directed_Graph &graph, char v1, char v2);                      // Function overload for directed graphs
 void print_graph(const Directed_Graph &g);
 int get_node_count(Directed_Graph &graph);

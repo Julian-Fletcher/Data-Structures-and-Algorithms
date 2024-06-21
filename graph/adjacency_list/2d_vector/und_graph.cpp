@@ -56,6 +56,7 @@ void remove_vertex(Undirected_Graph &graph, const char v){
     std::swap(graph.adj_list[v_location], graph.adj_list.back());
     graph.adj_list.pop_back();
     graph.node_count--;
+    // Remove vertex in adjacency lists
     for(auto &row : graph.adj_list){
         edge_removed = delete_edge(row, v);
         if(edge_removed){

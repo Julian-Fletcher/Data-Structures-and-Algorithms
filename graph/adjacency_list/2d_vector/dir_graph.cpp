@@ -10,22 +10,20 @@ Directed_Graph  create_directed_graph(){
     return graph;
 }
 
-// UPDATED
-void add_edge(Directed_Graph &graph, char start, char end, double weight) {
-    size_t start_location = locate_vertex(graph.adj_list, start);
-    size_t end_location = locate_vertex(graph.adj_list, end);
+void add_edge(Directed_Graph &graph, char source, char destination, double weight) {
+    size_t source_location = locate_vertex(graph.adj_list, source);
+    size_t dest_location = locate_vertex(graph.adj_list, destination);
 
-    if(start_location == -1 || end_location == -1){
+    if(source_location == -1 || dest_location == -1){
         return;
     }
 
-    Edge e = {.node = end, .weight = weight};
+    Edge new_edge = {.node = destination, .weight = weight};
 
-    graph.adj_list[start_location].push_back(e);
+    graph.adj_list[source_location].push_back(new_edge);
     graph.edge_count++;
 }
 
-// UPDATED
 void add_vertex(Directed_Graph &graph, char v){
     Edge e = {.node = v};
     if(graph.adj_list.empty()){
@@ -44,17 +42,17 @@ void add_vertex(Directed_Graph &graph, char v){
 
 }
 
-void remove_vertex(Directed_Graph &graph, char v){
-    size_t v_location = locate_vertex(graph.adj_list, v);
-    if(v_location == -1){
+void remove_vertex(Directed_Graph &graph, char target){
+    size_t target_location = locate_vertex(graph.adj_list, target);
+    if(target_location == -1){
         return;
     }
 
-    std::swap(graph.adj_list[v_location], graph.adj_list.back());
+    std::swap(graph.adj_list[target_location], graph.adj_list.back());
     graph.adj_list.pop_back();
     graph.node_count--;
     for(auto &row : graph.adj_list){
-        delete_edge(row, v);
+        delete_edge(row, target);
     }
 }
 
