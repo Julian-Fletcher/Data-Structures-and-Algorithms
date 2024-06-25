@@ -99,7 +99,7 @@ void print_graph(const Undirected_Graph &g){
             if(col.node == row[0].node){
                 continue;
             }
-            std::cout << col.node << "{" << col.weight << "} ";
+            std::cout << col.node << "[" << col.weight << "] ";
         }
         std::cout << "\n";
     }

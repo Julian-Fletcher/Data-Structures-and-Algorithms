@@ -45,3 +45,10 @@ int get_edge_count(Directed_Graph &graph);
 size_t locate_vertex(const std::vector<std::vector<Edge>> &adj_list, char target);
 size_t locate_vertex(std::vector<Edge> &col, char target);
 bool delete_edge(std::vector<Edge> &row, char target);
+
+
+// Graph Traversal
+void BFS(Undirected_Graph &g, char start);
+void BFS(Directed_Graph &g, char start);
+void DFS(Undirected_Graph &g, char start);
+void DFS(Directed_Graph &g, char start);
