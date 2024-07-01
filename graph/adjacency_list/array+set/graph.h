@@ -21,6 +21,7 @@ struct hash_function{
 
 struct Undirected_Graph{
     std::vector<std::unordered_set<Edge_Info, hash_function>> adj_list;
+    std::vector<bool> initialized;
 };
 
 struct Directed_Graph{
@@ -46,3 +47,7 @@ void remove_edge(Directed_Graph &graph, int v1, char v2);
 void print_graph(const Directed_Graph &g);
 int get_node_count(Directed_Graph &graph);
 int get_edge_count(Directed_Graph &graph);
+
+// Helper
+bool in_bounds(Undirected_Graph &g, int index);
+bool in_bounds(Directed_Graph &g, int index)
