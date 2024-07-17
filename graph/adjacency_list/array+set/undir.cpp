@@ -2,14 +2,17 @@
 
 Undirected_Graph create_undirected_graph(int vertices){
     Undirected_Graph g;
-    g.adj_list.reserve(vertices);
-    g.initialized.reserve(vertices);
+    g.adj_list.resize(vertices);
+    g.initialized.resize(vertices);
+    g.edge_count = 0;
     return g;
 }
 
 void add_edge(Undirected_Graph &graph, int v1, int v2, double weight){
     // Confirm vertices are within bounds
-    if()
+    if(!in_bounds(graph, v1) || !in_bounds(graph, v2)){
+        return;
+    }
 
     // Confirm vertices have been added
     if(!graph.initialized[v1] || !graph.initialized[v2]){
@@ -27,36 +30,56 @@ void add_vertex(Undirected_Graph &graph, int v){
         return;
     }
     graph.initialized[v] = true;
-    graph.adj_list[v] = std::unordered_set<Edge_Info, hash_function>;
+    graph.adj_list[v] = std::unordered_set<Edge_Info, hash_function>();
 }
 
 void remove_vertex(Undirected_Graph &graph, int v){
     // Confirm vertices are within bounds
-    if(v > graph.adj_list.capacity()){
+    if(!in_bounds(graph, v)){
         return;
     }
+
     graph.initialized[v] = false;
     graph.adj_list[v].clear();
 
-    for(auto &list : graph.adj_list){
-        for(auto &edge : list){
+    for(auto list = 0; list < graph.adj_list.size(); list++){
+        for(auto &edge : graph.adj_list[list]){
             if(edge.vertex == v){
-                list.erase(edge);
+                graph.adj_list[list].erase(edge);
+                break;
             }
         }
     }
+
 }
 
 void remove_edge(Undirected_Graph &graph, int v1, int v2){
     // Confirm vertices are within bounds
-    if(v1 > graph.adj_list.capacity() || v2 > graph.adj_list.capacity()){
+    if(!in_bounds(graph, v1)|| !in_bounds(graph, v2)){
         return;
+    }
+
+    remove_target(graph.adj_list[v1], v2);
+    remove_target(graph.adj_list[v2], v1);
+}
+
+void print_graph(const Undirected_Graph &g){
+    for(auto i = 0; i < g.adj_list.size(); i++){
+        std::cout << i << ": ";
+        for(auto &edge : g.adj_list[i]){
+            std::cout << edge.vertex << "[" << edge.weight << "], ";
+        }
+        std::cout << "\n";
     }
 }
 
-void print_graph(const Undirected_Graph &g);
-int get_node_count(Undirected_Graph &graph);
-int get_edge_count(Undirected_Graph &graph);
+int get_node_count(Undirected_Graph &graph){
+    return graph.adj_list.size();
+}
+
+int get_edge_count(Undirected_Graph &graph){
+    return graph.edge_count;
+}
 
 bool in_bounds(Undirected_Graph &g, int index){
     // Confirm vertices are within bounds
@@ -65,3 +88,14 @@ bool in_bounds(Undirected_Graph &g, int index){
     }
     return true;
 }
+
+void remove_target(std::unordered_set<Edge_Info, hash_function> &list, int target){
+    for(auto edge = list.begin(); edge != list.end();){
+        if(edge->vertex == target){
+            edge = list.erase(edge);
+            return;
+        }
+        edge++;
+    }
+}
+

@@ -22,10 +22,12 @@ struct hash_function{
 struct Undirected_Graph{
     std::vector<std::unordered_set<Edge_Info, hash_function>> adj_list;
     std::vector<bool> initialized;
+    int edge_count;
 };
 
 struct Directed_Graph{
     std::vector<std::unordered_set<Edge_Info, hash_function>> adj_list;
+    std::vector<bool> initialized;
 };
 
 
@@ -50,4 +52,9 @@ int get_edge_count(Directed_Graph &graph);
 
 // Helper
 bool in_bounds(Undirected_Graph &g, int index);
-bool in_bounds(Directed_Graph &g, int index)
+bool in_bounds(Directed_Graph &g, int index);
+void remove_target(std::unordered_set<Edge_Info, hash_function> &list, int target);
+
+// Traverse
+void BFS(Undirected_Graph &g, int start);
+void dijkstra(Undirected_Graph g, int start, int dest);
