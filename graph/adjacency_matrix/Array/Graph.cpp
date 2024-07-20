@@ -115,6 +115,53 @@ void Graph::dijkstra(int start){
 }
 
 void Graph::dijkstra(int start, int end){
+    std::vector<bool> visited(this->size, false);
+    std::vector<int> distances(this->size, std::numeric_limits<int>::max());
+    std::vector<int> previous(this->size);
+    distances[start] = 0;
+    int current_node = -1;
+
+    // Loop through every vertex in the graph
+    for(int i : std::views::iota(0, this->size)){
+        int min_distance = std::numeric_limits<int>::max();
+
+        // Find the next vertex with the lowest weight
+        for(int j : std::views::iota(0, this->size)){
+            if(current_node == end) break;          // If destination is found, break loop
+            if(distances[j] < min_distance && !visited[j]) {
+                min_distance = distances[j];
+                current_node = j;
+            }
+        }
+        if(current_node == -1) break;   // No more vertices to look at
+        if(current_node == end) break;  // Break if current node found
+
+        for(int edge : std::views::iota(0, this->size)) {
+            if (this->adj[current_node][edge] == -1) continue;
+
+            int path_weight = this->adj[current_node][edge] + distances[current_node];
+            if (path_weight < distances[edge]) {
+                distances[edge] = path_weight;
+                previous[edge] = current_node;
+            }
+        }
+        visited[current_node] = true;   // Set current node to visited
+    }
+
+    std::cout << "Path from " << start << " to " << end << "\n";
+    std::stack<int> path;
+
+    while(current_node != start){
+        path.push(current_node);
+        current_node = previous[current_node];
+    }
+    path.push(start);
+    int x;
+    while(!path.empty()){
+        x = path.top();
+        path.pop();
+        std::cout << x << " ";
+    }
 
 }
 
@@ -165,5 +212,6 @@ int main(){
     g->BFS(1);
     g->DFS(1);
     g->dijkstra(1);
+    g->dijkstra(1, 12);
     delete g;
 }
