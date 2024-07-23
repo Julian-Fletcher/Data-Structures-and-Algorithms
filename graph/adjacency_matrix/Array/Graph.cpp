@@ -78,7 +78,7 @@ void Graph::DFS(int start){
     std::cout << std::endl;
 }
 
-// Returns path
+// Returns shortest paths to all vertices
 void Graph::dijkstra(int start){
     std::vector<bool> visited(this->size, false);
     std::vector<int> distances(this->size, std::numeric_limits<int>::max());
@@ -114,6 +114,7 @@ void Graph::dijkstra(int start){
     }
 }
 
+// Returns shortest path to destination
 void Graph::dijkstra(int start, int end){
     std::vector<bool> visited(this->size, false);
     std::vector<int> distances(this->size, std::numeric_limits<int>::max());

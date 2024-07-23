@@ -1,6 +1,9 @@
 #include "graph.h"
 #include <queue>
 #include <unordered_set>
+#include <vector>
+#include <stack>
+#include <limits>
 
 void BFS(Undirected_Graph &g, int start){
     std::queue<int> v_queue;
@@ -32,5 +35,12 @@ void BFS(Undirected_Graph &g, int start){
 }
 
 void dijkstra(Undirected_Graph &g, int start, int dest){
+    std::vector<bool> visited(g.adj_list.size(), false);
+    std::vector<int> distances(g.adj_list.size(), std::numeric_limits<int>::max());
+    std::vector<char>predecessor;
+
+    distances[start] = 0;
+    int shortest_distance = std::numeric_limits<int>::max();
+    for(int i : std::views::iota)
 
 }
