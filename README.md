@@ -10,4 +10,5 @@ This repository contains my implementations for several data structures and some
 
 ## Algorithms Implemented
 * Breadth-First Search
-* Dijkstra's Algorithm (soon)
+* Depth-First Search
+* Dijkstra's Algorithm
