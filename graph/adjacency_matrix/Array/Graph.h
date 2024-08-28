@@ -13,7 +13,9 @@ public:
     void BFS(int start);
     void DFS(int start);
     void dijkstra(int start);
-    void dijkstra(int start, int end);
+    void dijkstra_search(int start, int end);
+    void dij_array(int start, int end);
+    void dij_pqueue(int start, int end);
     void print();
 };
 

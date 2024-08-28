@@ -4,6 +4,10 @@
 #include <vector>
 #include <limits>
 #include <ranges>
+#include <chrono>
+#include <random>
+
+#define SIZE 200000
 
 Graph::Graph(int v){
     this->size = v;
@@ -18,7 +22,7 @@ Graph::Graph(int v){
 }
 
 void Graph::add_edge(int src, int dest, int weight){
-    if(!(0 <= src < this->size) || !(0 <= dest < this->size)){
+    if (src < 0 || src >= this->size || dest < 0 || dest >= this->size) {
         return;
     }
 
@@ -94,7 +98,6 @@ void Graph::dijkstra(int start){
                 min_distance = distances[j];
                 current_node = j;
             }
-
         }
         if(current_node == -1) break;   // No more vertices to look at
 
@@ -115,7 +118,78 @@ void Graph::dijkstra(int start){
 }
 
 // Returns shortest path to destination
-void Graph::dijkstra(int start, int end){
+void Graph::dijkstra_search(int start, int end){
+
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+    dij_array(start, end);
+
+    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> time_span = duration_cast<std::chrono::duration<double>>(t2 - t1);
+
+    std::cout << "Array implementation time: " << time_span.count() << " seconds.\n";
+
+    t1 = std::chrono::high_resolution_clock::now();
+
+    dij_pqueue(start, end);
+
+    t2 = std::chrono::high_resolution_clock::now();
+
+    time_span = duration_cast<std::chrono::duration<double>>(t2 - t1);
+
+    std::cout << "Min-heap implementation time: " << time_span.count() << " seconds.\n";
+}
+
+void Graph::dij_pqueue(int start, int end){
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> p_queue;
+    std::vector<int> distances(this->size, std::numeric_limits<int>::max());
+    std::vector<int> previous(this->size);
+    std::pair<int, int> current_node;
+
+    p_queue.emplace(0, start);  // Puts a pair into the queue. Emplace instead of push because it constructs in place
+    distances[start] = 0;
+
+    while(!p_queue.empty()){
+        current_node = p_queue.top();
+        if(current_node.second == end){
+            break;
+        }
+        p_queue.pop();
+        for(int neighbor : std::views::iota(0, this->size)){
+            if(this->adj[current_node.second][neighbor] == -1){
+                continue;
+            }
+            int path_weight = distances[current_node.second] + this->adj[current_node.second][neighbor];
+            if(path_weight < distances[neighbor]){
+                distances[neighbor] = path_weight;
+                p_queue.emplace(distances[neighbor], neighbor);
+                previous[neighbor] = current_node.second;
+            }
+        }
+    }
+
+
+    std::cout << "Path from " << start << " to " << end << "\n";
+    std::stack<int> path;
+
+    while(current_node.second != start){
+        path.push(current_node.second);
+        current_node.second = previous[current_node.second];
+    }
+    path.push(start);
+    int x;
+    while(path.size() != 1){
+        x = path.top();
+        path.pop();
+        std::cout << x << " -> ";
+    }
+    x = path.top();
+    path.pop();
+    std::cout << x << "\n";
+}
+
+void Graph::dij_array(int start, int end){
     std::vector<bool> visited(this->size, false);
     std::vector<int> distances(this->size, std::numeric_limits<int>::max());
     std::vector<int> previous(this->size);
@@ -158,12 +232,14 @@ void Graph::dijkstra(int start, int end){
     }
     path.push(start);
     int x;
-    while(!path.empty()){
+    while(path.size() != 1){
         x = path.top();
         path.pop();
-        std::cout << x << " ";
+        std::cout << x << " -> ";
     }
-
+    x = path.top();
+    path.pop();
+    std::cout << x << "\n";
 }
 
 
@@ -181,38 +257,37 @@ void Graph::print(){
 }
 
 
+double random_num_d(){
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<> dis(0.0, 1.0);
+    return dis(gen);
+}
+
+
+int random_num_i(){
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(0, SIZE - 1);
+    return dis(gen);
+}
 
 int main(){
-    auto *g = new Graph(15);
-    g->add_edge(0,4,3);
-    g->add_edge(0,5,12);
-    g->add_edge(1,13,14);
-    g->add_edge(13,4,6);
-    g->add_edge(13,2,11);
-    g->add_edge(2,14,7);
-    g->add_edge(3,6,9);
-    g->add_edge(3,5,18);
-    g->add_edge(4,5,1);
-    g->add_edge(4,14,15);
-    g->add_edge(4,6,4);
-    g->add_edge(5,7,22);
-    g->add_edge(5,10,3);
-    g->add_edge(6,9,6);
-    g->add_edge(6,11,1);
-    g->add_edge(7,9,8);
-    g->add_edge(8,14,2);
-    g->add_edge(8,11,20);
-    g->add_edge(8,12,12);
-    g->add_edge(9,10,4);
-    g->add_edge(9,11,19);
-    g->add_edge(11,12,6);
+    int weight;
 
+    Graph g(SIZE);
 
-    g->print();
+    for(int i : std::views::iota(0, 5)){
+        for (int j = 0; j < SIZE; ++j) {
+            weight = random_num_i();
+            g.add_edge(j, random_num_i(), weight);
+        }
+    }
+//    g.print();
+//    g.BFS(random_num_i());
+//    g.DFS(random_num_i());
+//    g.dijkstra(random_num_i());
 
-    g->BFS(1);
-    g->DFS(1);
-    g->dijkstra(1);
-    g->dijkstra(1, 12);
-    delete g;
+    g.dijkstra_search(random_num_i(), random_num_i());
+
 }
