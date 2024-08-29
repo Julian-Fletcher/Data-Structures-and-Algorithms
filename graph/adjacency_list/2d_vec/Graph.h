@@ -8,7 +8,7 @@
 #define INC_2D_VEC_GRAPH_H
 
 struct Edge{
-    int v;
+    int vertex;
     int weight;
 };
 
@@ -20,7 +20,9 @@ public:
     void DFS(int src);
     void BFS(int src);
     void dijkstra(int start);
-    void dijkstra(int start, int dest);
+    void dijkstra_search(int start, int end);
+    void dij_array(int start, int end);
+    void dij_pqueue(int start, int end);
 private:
     std::vector<Edge> *adj;
     int size;
